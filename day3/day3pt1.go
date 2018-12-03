@@ -7,24 +7,26 @@ import (
 	"strconv"
 )
 
-func ListSquares(claim string)[]string{
+type claim struct {
+	id   int
+	x, y int
+	w, h int
+	overlaps bool
+}
+
+func ListSquares(record string)[]string{
 	// takes a line like #1 @ 1,3: 4x4
 	// and converts it to coords 1,3 2,3 3,3 4,4 1,4 2,4 3,4 4,4 etc
 	var squareslist []string
-	components := strings.Split(claim, " ")
-	startcoords := strings.Split(components[2], ":")[0]
-	startx, _ := strconv.Atoi(strings.Split(startcoords,",")[0])
-	starty, _ := strconv.Atoi(strings.Split(startcoords,",")[1])
-
-	size := components[3]
-	sizex, _ := strconv.Atoi(strings.Split(size, "x")[0])
-	sizey, _ := strconv.Atoi(strings.Split(size, "x")[1])
-
-	for i := 0; i < sizex; i++ {
-		for j := 0; j < sizey; j++ {
-			xnumber := strconv.Itoa(startx + i)
-			ynumber := strconv.Itoa(starty + j)
-			squareslist = append(squareslist, strings.Join([]string{xnumber,ynumber},","))
+	var c claim
+	
+	fmt.Sscanf(record, "#%d @ %d,%d: %dx%d", &c.id, &c.x, &c.y, &c.w, &c.h)
+	
+	for i := 0; i < c.w; i++ {
+		for j := 0; j < c.h; j++ {
+			x := strconv.Itoa(c.x + i)
+			y := strconv.Itoa(c.y + j)
+			squareslist = append(squareslist, strings.Join([]string{x,y},","))
 		}
 		
 	}
@@ -64,7 +66,6 @@ func MakeMap(claims []string)map[string]string {
 	for _, claim := range claims {
 		
 		for _, element := range ListSquares(claim) {
-//			fmt.Println(element)
 			if usedfabric[element] == "taken" {
 				usedfabric[element] = "double"
 			} else if usedfabric[element] == "double" {
@@ -81,7 +82,6 @@ func FindNonOverlap(claims []string, usedfabric map[string]string)string {
 	for _, claim := range claims {
 		nooverlap := true
 		for _, element := range ListSquares(claim) {
-//			fmt.Println(element)
 			if usedfabric[element] == "double" {
 				nooverlap = false
 			}
