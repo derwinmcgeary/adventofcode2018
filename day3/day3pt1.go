@@ -7,11 +7,10 @@ import (
 	"strconv"
 )
 
-func listsquares(claim string)[]string{
+func ListSquares(claim string)[]string{
 	// takes a line like #1 @ 1,3: 4x4
 	// and converts it to coords 1,3 2,3 3,3 4,4 1,4 2,4 3,4 4,4 etc
 	var squareslist []string
-//	fmt.Println(claim)
 	components := strings.Split(claim, " ")
 	startcoords := strings.Split(components[2], ":")[0]
 	startx, _ := strconv.Atoi(strings.Split(startcoords,",")[0])
@@ -29,11 +28,10 @@ func listsquares(claim string)[]string{
 		}
 		
 	}
-//	fmt.Println(squareslist)
 	return squareslist
 }
-func loadFile(filename string)[]string {
-	b, err := ioutil.ReadFile("input")
+func LoadFile(filename string)[]string {
+	b, err := ioutil.ReadFile(filename)
 	if err != nil {
 		fmt.Print(err)
 	}
@@ -46,14 +44,26 @@ func loadFile(filename string)[]string {
 	return lines
 
 }
-func main() {
 
-	lines := loadFile("input")
+func CountOverlap(usedfabric map[string]string)int {
+	
+	takeninches := 0
+
+	for _,element := range usedfabric {
+		if element == "double" {
+			takeninches++
+		}
+	}
+	return takeninches
+}
+
+
+func MakeMap(claims []string)map[string]string {
 	usedfabric := make(map[string]string)
 
-	for _, claim := range lines {
+	for _, claim := range claims {
 		
-		for _, element := range listsquares(claim) {
+		for _, element := range ListSquares(claim) {
 //			fmt.Println(element)
 			if usedfabric[element] == "taken" {
 				usedfabric[element] = "double"
@@ -64,29 +74,44 @@ func main() {
 			}
 		}
 	}
-	
-	takeninches := 0
+	return usedfabric
+}
 
-	for _,element := range usedfabric {
-		if element == "double" {
-			takeninches++
-		}
-	}
-
-	fmt.Println(takeninches)
-
-	for _, claim := range lines {
+func FindNonOverlap(claims []string, usedfabric map[string]string)string {
+	for _, claim := range claims {
 		nooverlap := true
-		for _, element := range listsquares(claim) {
+		for _, element := range ListSquares(claim) {
 //			fmt.Println(element)
 			if usedfabric[element] == "double" {
 				nooverlap = false
 			}
 		}
 		if nooverlap {
-			fmt.Println(strings.Split(claim," ")[0])
+			return(strings.Split(claim," ")[0])
 		}
 	}
+	return("Not Found")
+}
 
+func PartOne(filename string) int {
+	lines := LoadFile(filename)
+	usedfabric := MakeMap(lines)
+	takeninches := CountOverlap(usedfabric)
+	return(takeninches)
+
+
+}
+
+func PartTwo(filename string) string {
+	lines := LoadFile(filename)
+	usedfabric := MakeMap(lines)
+	return(FindNonOverlap(lines, usedfabric))
+}
+
+func main() {
+	inputfile := "input"
+	fmt.Println(PartOne(inputfile))
+	fmt.Println(PartTwo(inputfile))
+	
 	
 }
