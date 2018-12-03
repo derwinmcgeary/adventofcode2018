@@ -32,8 +32,7 @@ func listsquares(claim string)[]string{
 //	fmt.Println(squareslist)
 	return squareslist
 }
-
-func main() {
+func loadFile(filename string)[]string {
 	b, err := ioutil.ReadFile("input")
 	if err != nil {
 		fmt.Print(err)
@@ -44,7 +43,12 @@ func main() {
 	if len(lines[len(lines)-1]) == 0 {
 		lines = lines[:len(lines)-1]
 	}
+	return lines
 
+}
+func main() {
+
+	lines := loadFile("input")
 	usedfabric := make(map[string]string)
 
 	for _, claim := range lines {
