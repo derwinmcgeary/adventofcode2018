@@ -154,3 +154,12 @@ func TestPartTwo (t *testing.T) {
 		t.Errorf("Overlap count was incorrect, got: %s, want: %s.", result, expected)
 	}
 }
+
+
+func ExampleMainFunction () {
+	main()
+	// output:
+	// 111630
+	// #724
+	
+}
