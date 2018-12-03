@@ -75,7 +75,12 @@ func TestLoadFile (t *testing.T) {
 	}	
 }
 
-
+func TestLoadFileError (t *testing.T) {
+	result := LoadFile("inputlkadfglkjerthg")
+	if len(result) != 0 {
+		t.Errorf("Non-existent file should not produce result")
+	}
+}
 func TestMakeMap (t *testing.T) {
 	expected := ExpectedMap()
 	input := []string{"#1 @ 1,3: 4x4", "#2 @ 3,1: 4x4","#3 @ 5,5: 2x2"}
@@ -111,6 +116,18 @@ func TestFindNonOverlap (t *testing.T) {
 
 	result := FindNonOverlap(inputclaims, inputmap)
 
+	if expected != result {
+		t.Errorf("Nonoverlap was incorrect, got: %s, want: %s.", result, expected)
+	}
+}
+func TestNoOverlapFound (t *testing.T) {
+	
+	expected := "Not Found"
+	inputclaims := ExpectedClaims()
+	inputclaims = append(inputclaims, "#4 @ 5,5: 2x2")
+	inputclaims = append(inputclaims, "#5 @ 5,5: 2x2")
+	inputmap := MakeMap(inputclaims)
+	result := FindNonOverlap(inputclaims, inputmap)
 	if expected != result {
 		t.Errorf("Nonoverlap was incorrect, got: %s, want: %s.", result, expected)
 	}
