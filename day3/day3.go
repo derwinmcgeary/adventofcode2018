@@ -5,6 +5,7 @@ import (
 	"io/ioutil"
 	"strings"
 	"strconv"
+	"os"
 )
 
 type claim struct {
@@ -110,6 +111,9 @@ func PartTwo(filename string) string {
 
 func main() {
 	inputfile := "input"
+	if len(os.Args) > 1 {
+		inputfile = os.Args[1]
+	}		
 	fmt.Println(PartOne(inputfile))
 	fmt.Println(PartTwo(inputfile))
 	
