@@ -83,8 +83,6 @@ func EventsToShift (guardevents []guardevent) shift {
 	endminute := 0
 	var sleepminutes []int
 	var output shift
-	fmt.Println("Here!")
-	fmt.Println(guardevents)
 	guard := guardevents[0].guard
 	for _, event := range guardevents {
 		if event.event == "sleeps" {
@@ -199,12 +197,13 @@ func PartTwo(filename string) int {
 }
 
 func main() {
+	start := time.Now()
 	inputfile := "input"
 	if len(os.Args) > 1 {
 		inputfile = os.Args[1]
 	}		
 	fmt.Println(PartOne(inputfile))
 	fmt.Println(PartTwo(inputfile))
-	
+	fmt.Println(time.Since(start))
 	
 }
