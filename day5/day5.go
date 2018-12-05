@@ -3,12 +3,12 @@ package main
 import (
 	"fmt"
 	"io/ioutil"
-	"strings"
 	"os"
+	"strings"
 	"time"
 )
 
-func LoadFile(filename string)[]string {
+func LoadFile(filename string) []string {
 	b, err := ioutil.ReadFile(filename)
 	if err != nil {
 		fmt.Print(err)
@@ -28,65 +28,65 @@ func RemoveLetter(input string, letter string) string {
 	replacetwo := strings.ToLower(letter)
 	r := strings.NewReplacer(replaceone, "", replacetwo, "")
 	output := r.Replace(input)
-	return(output)
+	return (output)
 }
 
-func deDupe (input string) string {
+func deDupe(input string) string {
 	r := strings.NewReplacer(
-		"Aa","",
-		"Bb","",
-		"Cc","",
-		"Dd","",
-		"Ee","",
-		"Ff","",
-		"Gg","",
-		"Hh","",
-		"Ii","",
-		"Jj","",
-		"Kk","",
-		"Ll","",
-		"Mm","",
-		"Nn","",
-		"Oo","",
-		"Pp","",
-		"Qq","",
-		"Rr","",
-		"Ss","",
-		"Tt","",
-		"Uu","",
-		"Vv","",
-		"Ww","",
-		"Xx","",
-		"Yy","",
-		"Zz","",
-		"aA","",
-		"bB","",
-		"cC","",
-		"dD","",
-		"eE","",
-		"fF","",
-		"gG","",
-		"hH","",
-		"iI","",
-		"jJ","",
-		"kK","",
-		"lL","",
-		"mM","",
-		"nN","",
-		"oO","",
-		"pP","",
-		"qQ","",
-		"rR","",
-		"sS","",
-		"tT","",
-		"uU","",
-		"vV","",
-		"wW","",
-		"xX","",
-		"yY","",
-		"zZ","")
+		"Aa", "",
+		"Bb", "",
+		"Cc", "",
+		"Dd", "",
+		"Ee", "",
+		"Ff", "",
+		"Gg", "",
+		"Hh", "",
+		"Ii", "",
+		"Jj", "",
+		"Kk", "",
+		"Ll", "",
+		"Mm", "",
+		"Nn", "",
+		"Oo", "",
+		"Pp", "",
+		"Qq", "",
+		"Rr", "",
+		"Ss", "",
+		"Tt", "",
+		"Uu", "",
+		"Vv", "",
+		"Ww", "",
+		"Xx", "",
+		"Yy", "",
+		"Zz", "",
+		"aA", "",
+		"bB", "",
+		"cC", "",
+		"dD", "",
+		"eE", "",
+		"fF", "",
+		"gG", "",
+		"hH", "",
+		"iI", "",
+		"jJ", "",
+		"kK", "",
+		"lL", "",
+		"mM", "",
+		"nN", "",
+		"oO", "",
+		"pP", "",
+		"qQ", "",
+		"rR", "",
+		"sS", "",
+		"tT", "",
+		"uU", "",
+		"vV", "",
+		"wW", "",
+		"xX", "",
+		"yY", "",
+		"zZ", "")
 	input = r.Replace(input)
-	return(input)
+	return (input)
 }
 
 func boilDown(input string) string {
@@ -99,27 +99,27 @@ func boilDown(input string) string {
 		}
 		currentlength = newlength
 	}
-	return(input)
+	return (input)
 }
 
 func PartOne(filename string) int {
 	lines := LoadFile(filename)
 	input := lines[0]
 	input = boilDown(input)
-	return(len(input))
+	return (len(input))
 }
 
 func PartTwo(filename string) int {
 	lines := LoadFile(filename)
 	input := lines[0]
 	minlength := len(input)
-	for _,l := range "abcdefghijklmnopqrstuvwxyz" {
-		testlength := len(boilDown(RemoveLetter(input,string(l))))
+	for _, l := range "abcdefghijklmnopqrstuvwxyz" {
+		testlength := len(boilDown(RemoveLetter(input, string(l))))
 		if testlength < minlength {
 			minlength = testlength
 		}
 	}
-	return(minlength)
+	return (minlength)
 }
 
 func main() {
@@ -127,11 +127,10 @@ func main() {
 	inputfile := "input"
 	if len(os.Args) > 1 {
 		inputfile = os.Args[1]
-	}		
+	}
 	fmt.Println(PartOne(inputfile))
 	fmt.Println(time.Since(start))
 	fmt.Println(PartTwo(inputfile))
 	fmt.Println(time.Since(start))
-	
-}
 
+}

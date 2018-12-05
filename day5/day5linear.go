@@ -3,12 +3,12 @@ package main
 import (
 	"fmt"
 	"io/ioutil"
-	"strings"
 	"os"
+	"strings"
 	"time"
 )
 
-func LoadFile(filename string)[]string {
+func LoadFile(filename string) []string {
 	b, err := ioutil.ReadFile(filename)
 	if err != nil {
 		fmt.Print(err)
@@ -25,21 +25,22 @@ func LoadFile(filename string)[]string {
 
 func PushSlice(sl []string, addme string) []string {
 	output := append(sl, addme)
-	return(output)
+	return (output)
 }
 
 func PopSlice(sl []string) []string {
-	return(sl[:len(sl)-1])
+	return (sl[:len(sl)-1])
 }
 
 func PeekSlice(sl []string) string {
-	return(sl[len(sl)-1])
+	return (sl[len(sl)-1])
 }
 
 func StackReduce(input string, ignore string) int {
 	var filtered []string
-	for _,i := range input {
-		if strings.ToLower(ignore) == strings.ToLower(string(i)) {
+	ignore = strings.ToLower(ignore)
+	for _, i := range input {
+		if ignore == strings.ToLower(string(i)) {
 			continue
 		}
 
@@ -47,35 +48,35 @@ func StackReduce(input string, ignore string) int {
 			filtered = PushSlice(filtered, string(i))
 			continue
 		}
-		if string(i) != PeekSlice(filtered) && strings.ToLower(string(i)) == strings.ToLower(string(PeekSlice(filtered))) {
+		if (int(i) - int(PeekSlice(filtered)[0])) * (int(i) - int(PeekSlice(filtered)[0])) == 1024 {
 			filtered = PopSlice(filtered)
 		} else {
 			filtered = PushSlice(filtered, string(i))
 		}
-		
+
 	}
-	return(len(filtered))
+	return (len(filtered))
 }
 
 func PartOne(filename string) int {
 	lines := LoadFile(filename)
 	input := lines[0]
 	finallength := StackReduce(input, " ")
-	return(finallength)
+	return (finallength)
 }
 
 func PartTwo(filename string) int {
 	lines := LoadFile(filename)
 	input := lines[0]
 	minlength := len(input)
-	for _,l := range "abcdefghijklmnopqrstuvwxyz" {
+	for _, l := range "abcdefghijklmnopqrstuvwxyz" {
 		testlength := StackReduce(input, string(l))
 		if testlength < minlength {
 			minlength = testlength
 		}
 	}
 
-	return(minlength)
+	return (minlength)
 }
 
 func main() {
@@ -83,10 +84,9 @@ func main() {
 	inputfile := "input"
 	if len(os.Args) > 1 {
 		inputfile = os.Args[1]
-	}		
+	}
 	fmt.Println(PartOne(inputfile))
-	fmt.Println(time.Since(start))		
+	fmt.Println(time.Since(start))
 	fmt.Println(PartTwo(inputfile))
-	fmt.Println(time.Since(start))	
+	fmt.Println(time.Since(start))
 }
-
