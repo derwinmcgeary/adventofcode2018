@@ -129,6 +129,7 @@ func main() {
 		inputfile = os.Args[1]
 	}		
 	fmt.Println(PartOne(inputfile))
+	fmt.Println(time.Since(start))
 	fmt.Println(PartTwo(inputfile))
 	fmt.Println(time.Since(start))
 	
