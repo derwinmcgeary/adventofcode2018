@@ -39,6 +39,23 @@ func Abs(n int) int {
 	return (n)
 }
 
+func Max(a,b int) int {
+	if a > b {
+		return(a)
+	}
+	return(b)
+}
+
+func Min(a,b int) int {
+	if a < b {
+		return(a)
+	}
+	return(b)
+}
+
+
+
+
 func LinesToPoints(input []string) []Point {
 
 	var output []Point
@@ -82,19 +99,10 @@ func FindBounds(dots []Point) []Point {
 	var output []Point
 
 	for _, dot := range dots {
-		if dot.x > max.x {
-			max.x = dot.x
-		}
-		if dot.y > max.y {
-			max.y = dot.y
-		}
-		if dot.x < min.x {
-			min.x = dot.x
-		}
-		if dot.y < min.y {
-			min.y = dot.y
-		}
-
+		max.x = Max(max.x,dot.x)
+		max.y = Max(max.y,dot.y)
+		min.x = Min(min.x,dot.x)
+		min.y = Min(min.y,dot.y)
 	}
 	output = append(output, min)
 	output = append(output, max)
@@ -147,21 +155,20 @@ func PartOne(filename string) int {
 
 	bigfield := MakeField(input, bounds[0].x-1, bounds[0].y-1, bounds[1].x+1, bounds[1].y+1)
 	bigfreq := FreqTable(bigfield)
-
+	maxFreq := 0
 	for k, v := range freq {
 		if v != bigfreq[k] {
 			delete(freq, k)
+			continue
 		}
-	}
-	maxFreq := 0
-
-	for k, v := range freq {
 		if v > maxFreq {
 			if k != -1 {
 				maxFreq = v
 			}
 		}
+		
 	}
+
 	return (maxFreq)
 }
 
