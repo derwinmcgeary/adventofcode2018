@@ -148,8 +148,6 @@ func PartOne(filename string) int {
 	lines := LoadFile(filename)
 	input := LinesToPoints(lines)
 	bounds := FindBounds(input)
-	var testpoint Point
-	testpoint.x, testpoint.y = 10, 10
 	field := MakeField(input, bounds[0].x, bounds[0].y, bounds[1].x, bounds[1].y)
 	freq := FreqTable(field)
 
@@ -174,9 +172,6 @@ func PartOne(filename string) int {
 
 func CountArea(field map[Point]int, threshold int) int {
 	area := 0
-	var testpoint Point
-	testpoint.x = 4
-	testpoint.y = 3
 	for _, total := range field {
 		if total < threshold {
 			area++
