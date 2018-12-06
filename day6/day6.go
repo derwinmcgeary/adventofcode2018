@@ -29,20 +29,20 @@ func LoadFile(filename string) []string {
 }
 
 func ManhattanDistance(one Point, two Point) int {
-	return(Abs(one.x - two.x) + Abs(one.y - two.y))
+	return (Abs(one.x-two.x) + Abs(one.y-two.y))
 }
 
 func Abs(n int) int {
 	if n < 0 {
-		return(-n)
+		return (-n)
 	}
-	return(n)
+	return (n)
 }
 
-func LinesToPoints (input []string) []Point {
+func LinesToPoints(input []string) []Point {
 
 	var output []Point
-	for _,line := range input {
+	for _, line := range input {
 		var dot Point
 		// 1, 1
 		fmt.Sscanf(line, "%d, %d", &dot.x, &dot.y)
@@ -55,8 +55,8 @@ func WhichClosest(dots []Point, testloc Point) int {
 	var closest int
 	nearestdistance := 10000
 
-	for i,dot := range dots {
-		testdistance := ManhattanDistance(dot,testloc)
+	for i, dot := range dots {
+		testdistance := ManhattanDistance(dot, testloc)
 		if testdistance < nearestdistance {
 			closest = i
 			nearestdistance = testdistance
@@ -66,22 +66,22 @@ func WhichClosest(dots []Point, testloc Point) int {
 			closest = -1
 		}
 	}
-	return(closest)
-	
+	return (closest)
+
 }
 
 func FindBounds(dots []Point) []Point {
 	var max Point
 	var min Point
-	
+
 	max.x = 0
 	max.y = 0
 	min.x = 1000
 	min.y = 1000
-	
+
 	var output []Point
-	
-	for _,dot := range dots {
+
+	for _, dot := range dots {
 		if dot.x > max.x {
 			max.x = dot.x
 		}
@@ -98,7 +98,7 @@ func FindBounds(dots []Point) []Point {
 	}
 	output = append(output, min)
 	output = append(output, max)
-	return(output)
+	return (output)
 }
 
 func MakeField(input []Point, xs, ys, xe, ye int) map[Point]int {
@@ -111,50 +111,51 @@ func MakeField(input []Point, xs, ys, xe, ye int) map[Point]int {
 			field[dot] = WhichClosest(input, dot)
 		}
 	}
-	return(field)
+	return (field)
 }
 
 func MakeDistanceField(input []Point, xs, ys, xe, ye int) map[Point]int {
 	field := make(map[Point]int)
 	for x := xs; x < xe; x++ {
 		for y := ys; y < ye; y++ {
-			for _,inputpoint := range input {
+			for _, inputpoint := range input {
 				var dot Point
 				dot.x = x
 				dot.y = y
-				field[dot] += ManhattanDistance(inputpoint, dot)}
+				field[dot] += ManhattanDistance(inputpoint, dot)
+			}
 		}
 	}
-	return(field)
+	return (field)
 }
 
 func FreqTable(field map[Point]int) map[int]int {
 	freq := make(map[int]int)
-	for _,val := range field {
+	for _, val := range field {
 		freq[val]++
 	}
-	return(freq)
+	return (freq)
 }
 func PartOne(filename string) int {
 	lines := LoadFile(filename)
 	input := LinesToPoints(lines)
 	bounds := FindBounds(input)
 	var testpoint Point
-	testpoint.x, testpoint.y = 10,10
+	testpoint.x, testpoint.y = 10, 10
 	field := MakeField(input, bounds[0].x, bounds[0].y, bounds[1].x, bounds[1].y)
 	freq := FreqTable(field)
 
-	bigfield := MakeField(input, bounds[0].x - 1, bounds[0].y - 1, bounds[1].x + 1, bounds[1].y + 1)
+	bigfield := MakeField(input, bounds[0].x-1, bounds[0].y-1, bounds[1].x+1, bounds[1].y+1)
 	bigfreq := FreqTable(bigfield)
 
-	for k,v := range freq {
+	for k, v := range freq {
 		if v != bigfreq[k] {
-			delete(freq,k)
+			delete(freq, k)
 		}
 	}
 	maxFreq := 0
 
-	for k,v := range freq {
+	for k, v := range freq {
 		if v > maxFreq {
 			if k != -1 {
 				maxFreq = v
@@ -169,12 +170,12 @@ func CountArea(field map[Point]int, threshold int) int {
 	var testpoint Point
 	testpoint.x = 4
 	testpoint.y = 3
-	for _,total := range field {
+	for _, total := range field {
 		if total < threshold {
 			area++
 		}
 	}
-	return(area)
+	return (area)
 }
 
 func PartTwo(filename string) int {
