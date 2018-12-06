@@ -36,7 +36,7 @@ func PeekSlice(sl []string) string {
 	return (sl[len(sl)-1])
 }
 
-func StackReduce(input string, ignore string) int {
+func StackReduce(input string, ignore string) []string {
 	var filtered []string
 	ignore = strings.ToLower(ignore)
 	for _, i := range input {
@@ -55,22 +55,22 @@ func StackReduce(input string, ignore string) int {
 		}
 
 	}
-	return (len(filtered))
+	return (filtered)
 }
 
 func PartOne(filename string) int {
 	lines := LoadFile(filename)
 	input := lines[0]
-	finallength := StackReduce(input, " ")
+	finallength := len(StackReduce(input, " "))
 	return (finallength)
 }
 
 func PartTwo(filename string) int {
 	lines := LoadFile(filename)
-	input := lines[0]
+	input := strings.Join(StackReduce(lines[0], " "),"")
 	minlength := len(input)
 	for _, l := range "abcdefghijklmnopqrstuvwxyz" {
-		testlength := StackReduce(input, string(l))
+		testlength := len(StackReduce(input, string(l)))
 		if testlength < minlength {
 			minlength = testlength
 		}
