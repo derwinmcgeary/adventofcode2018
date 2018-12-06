@@ -28,19 +28,6 @@ func LoadFile(filename string) []string {
 
 }
 
-func PushSlice(sl []string, addme string) []string {
-	output := append(sl, addme)
-	return (output)
-}
-
-func PopSlice(sl []string) []string {
-	return (sl[:len(sl)-1])
-}
-
-func PeekSlice(sl []string) string {
-	return (sl[len(sl)-1])
-}
-
 func ManhattanDistance(one Point, two Point) int {
 	return(Abs(one.x - two.x) + Abs(one.y - two.y))
 }
@@ -157,7 +144,7 @@ func PartOne(filename string) int {
 	field := MakeField(input, bounds[0].x, bounds[0].y, bounds[1].x, bounds[1].y)
 	freq := FreqTable(field)
 
-	bigfield := MakeField(input, -1000, -1000, 1000, 1000)
+	bigfield := MakeField(input, bounds[0].x - 1, bounds[0].y - 1, bounds[1].x + 1, bounds[1].y + 1)
 	bigfreq := FreqTable(bigfield)
 
 	for k,v := range freq {
@@ -177,20 +164,29 @@ func PartOne(filename string) int {
 	return (maxFreq)
 }
 
-func PartTwo(filename string) int {
-	lines := LoadFile(filename)
-	input := LinesToPoints(lines)
-	bigfield := MakeDistanceField(input, -100, -100, 1000, 1000)
-
+func CountArea(field map[Point]int, threshold int) int {
 	area := 0
 	var testpoint Point
 	testpoint.x = 4
 	testpoint.y = 3
-	for _,total := range bigfield {
-		if total < 10000 {
+	for _,total := range field {
+		if total < threshold {
 			area++
 		}
 	}
+	return(area)
+}
+
+func PartTwo(filename string) int {
+	lines := LoadFile(filename)
+	input := LinesToPoints(lines)
+	bounds := FindBounds(input)
+	bigfield := MakeDistanceField(input, bounds[0].x, bounds[0].y, bounds[1].x, bounds[1].y)
+	threshold := 10000
+	if filename == "input.test" {
+		threshold = 32
+	}
+	area := CountArea(bigfield, threshold)
 	return (area)
 }
 
