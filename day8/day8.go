@@ -13,6 +13,7 @@ func LoadFile(filename string) []string {
 	b, err := ioutil.ReadFile(filename)
 	if err != nil {
 		fmt.Print(err)
+		return([]string{})
 	}
 
 	str := string(b)
