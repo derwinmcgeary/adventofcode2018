@@ -5,6 +5,7 @@ import (
 	"container/ring"
 	"io/ioutil"
 	"os"
+	"strconv"
 	"strings"
 	"time"
 )
@@ -40,6 +41,50 @@ func Max(scores map[int]int) (max int) {
 	return
 }
 
+func PrintCircle(circle *ring.Ring) {
+	var output []string
+	for x := 0; x < circle.Len() ; x++{
+		output = append(output, strconv.Itoa(circle.Value.(int)))
+		circle = circle.Next()
+	}
+	fmt.Println(output)
+
+}
+
+func PlayTurn(circle *ring.Ring, marble int) (outcircle *ring.Ring, score int){
+	if marble%23 == 0 {
+		score += marble
+		circle = circle.Move(-8)
+		removed := circle.Unlink(1)
+		circle = circle.Next()
+		score += removed.Value.(int)
+
+		
+	} else {
+		circle = circle.Move(1)
+		circle = circle.Link(&ring.Ring{Value: marble})
+		circle = circle.Move(-1)
+
+	}
+
+	outcircle = circle
+//	PrintCircle(outcircle)
+	return
+}
+
+func PlayGame(players, maxmarble int) (result int) {
+	scores := make(map[int]int)
+	circle := ring.New(1)
+	circle.Value = 0
+	
+	for i := 1; i<maxmarble + 1; i++ {
+		newscore := 0
+		circle, newscore = PlayTurn(circle,i)
+		scores[i%players] += newscore
+	}
+	return(Max(scores))
+
+}
 
 func main() {
 	start := time.Now()
@@ -54,46 +99,11 @@ func main() {
 		os.Exit(-1)
 	}
 
-	
-	players, maxmarble :=LineToInts(input[0])
-	maxmarble = maxmarble * 100
-	scores := make(map[int]int)
-	circle := ring.New(1)
-	circle.Value = 0
-//	players,maxmarble = 13,7999
-//	players,maxmarble = 5,25
-
-	for i := 1; i<maxmarble; i++ {
-		if i%1000 == 0 {
-			fmt.Println(i)
-		}
-		if i%23 == 0 {
-			scores[i%players] += i
-			circle = circle.Move(-8)
-			removed := circle.Unlink(1)
-			circle = circle.Next()
-			scores[i%players] += removed.Value.(int)
-//			fmt.Println("Current", circle.Value)
-		} else {
-//			var output []int
-//			for i := 0; i<circle.Len(); i++ {
-//				output = append(output, circle.Value.(int))
-//				circle = circle.Next()
-//			}
-//			fmt.Println(output)
-			tmp := ring.New(1)
-			tmp.Value = i
-			circle = circle.Move(1)
-			circle = circle.Link(tmp)
-			circle = circle.Move(-1)
-//			if circle.Value.(int) == i {
-//				fmt.Println("OK")
-//			}
-
-
-		}
+	for _,l := range(input) {
+		players,maxmarble := LineToInts(l)
+		fmt.Println(players, "players; last marble is worth", maxmarble, "points: high score is", PlayGame(players, maxmarble))
+		maxmarble = maxmarble * 100
+		fmt.Println(players, "players; last marble is worth", maxmarble, "points: high score is", PlayGame(players, maxmarble))
 	}
-//	fmt.Println(testcirc)
-	fmt.Println(Max(scores))
 	fmt.Println(time.Since(start))
 }
