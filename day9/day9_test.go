@@ -6,7 +6,11 @@ import (
 )
 
 func TestLoadFile(t *testing.T) {
-	expected := []string{"2 3 0 3 10 11 12 1 1 0 1 99 2 1 1 2"}
+	expected := []string{"10 players; last marble is worth 1618 points",
+"13 players; last marble is worth 7999 points",
+"17 players; last marble is worth 1104 points",
+"21 players; last marble is worth 6111 points",
+"30 players; last marble is worth 5807 points"}
 
 	result := LoadFile("input.test")
 
@@ -28,56 +32,21 @@ func TestLoadFileBad(t *testing.T) {
 }
 
 func TestLineToInts(t *testing.T) {
-	input :=
-		expectedplayers :=
-		expectedscore := 
-	input := "2 3 0 3 10 11 12 1 1 0 1 99 2 1 1 2"
+	input := "17 players; last marble is worth 1104 points"
+	expectedplayers := 17
+	expectedmaxmarble := 1104
 
-	ps, score := LineToInts(input)
+	ps, maxmarble := LineToInts(input)
 	
-	if resultSum != expectedSum {
-		t.Errorf("Part One was %v, should be %v", resultSum, expectedSum)
+	if ps != expectedplayers {
+		t.Errorf("Players was %v, should be %v", ps, expectedplayers)
 	}
 
-	if resultValue != expectedValue {
-		t.Errorf("Part Two was %v, should be %v", resultValue, expectedValue)
-	}
-
-	
-
-}
-
-func TestParseNode (t *testing.T) {
-	input := []int{2, 3, 0, 3, 10 ,11, 12 ,1 ,1 ,0 ,1 ,99, 2, 1, 1, 2}
-	expectedSum := 138
-	expectedValue := 66
-
-	_,resultSum, resultValue := ParseNode(input, 0)
-
-	if resultSum != expectedSum {
-		t.Errorf("Part One was %v, should be %v", resultSum, expectedSum)
-	}
-
-	if resultValue != expectedValue {
-		t.Errorf("Part Two was %v, should be %v", resultValue, expectedValue)
-	}
-
-}
-
-func TestSolve(t *testing.T) {
-	
-	expectedSum := 138
-	expectedValue := 66
-	resultSum, resultValue := Solve("input.test")
-
-	if resultSum != expectedSum {
-		t.Errorf("Part One was %v, should be %v", resultSum, expectedSum)
-	}
-
-	if resultValue != expectedValue {
-		t.Errorf("Part Two was %v, should be %v", resultValue, expectedValue)
+	if maxmarble != expectedmaxmarble {
+		t.Errorf("Maximum marble was %v, should be %v", maxmarble, expectedmaxmarble)
 	}
 
 	
 
 }
+

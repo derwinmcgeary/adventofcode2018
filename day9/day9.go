@@ -48,7 +48,6 @@ func PrintCircle(circle *ring.Ring) {
 		circle = circle.Next()
 	}
 	fmt.Println(output)
-
 }
 
 func PlayTurn(circle *ring.Ring, marble int) (outcircle *ring.Ring, score int){
