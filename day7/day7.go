@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"os"
+	"sort"
 	"strings"
 	"time"
 )
@@ -84,17 +85,8 @@ func RemoveByName(list []string, name string) []string {
 }
 
 func GetMinimum(list []string) string {
-	first := "a"
-	if len(list) == 0 {
-		os.Exit(-1)
-	}
-	for _,i := range list {
-		if i < first {
-			first = i
-		}
-	}
-
-	return(first)
+	sort.Strings(list)
+	return(list[0])
 }
 
 func Add(list []string, names []string) []string {

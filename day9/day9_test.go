@@ -28,17 +28,19 @@ func TestLoadFileBad(t *testing.T) {
 }
 
 func TestLineToInts(t *testing.T) {
-	expected := []int{2, 3, 0, 3, 10 ,11, 12 ,1 ,1 ,0 ,1 ,99, 2, 1, 1, 2}
+	input :=
+		expectedplayers :=
+		expectedscore := 
 	input := "2 3 0 3 10 11 12 1 1 0 1 99 2 1 1 2"
 
-	result := LineToInts(input)
-	for n , r := range result {
-		if r != expected[n] {
-			t.Errorf("Decoded ints were %v, should be %v", result, expected)
-		}
+	ps, score := LineToInts(input)
+	
+	if resultSum != expectedSum {
+		t.Errorf("Part One was %v, should be %v", resultSum, expectedSum)
 	}
-	if len(result) != len(expected) || result[0] != expected[0] {
-		t.Errorf("Decoded ints were %v, should be %v", result, expected)
+
+	if resultValue != expectedValue {
+		t.Errorf("Part Two was %v, should be %v", resultValue, expectedValue)
 	}
 
 	

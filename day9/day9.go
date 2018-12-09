@@ -106,6 +106,7 @@ func main() {
 
 	players, maxmarble :=LineToInts(input[0])
 	maxmarble = maxmarble * 100
+
 	testcirc := new(Circle)
 	testcirc.position = 0
 	testcirc.marbles = append(testcirc.marbles,0)
